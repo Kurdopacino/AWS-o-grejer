@@ -1,15 +1,24 @@
 {
-  "manifestVersion": 1,
-  "deployments": {
-    "aspNetCoreWeb": [
-      {
-        "name": "YourApp",
-        "parameters": {
-          "appBundle": "site",
-          "iisPath": "/",
-          "iisWebSite": "Default Web Site"
-        }
-      }
-    ]
-  }
+  "manifestVersion": "1.0",
+  "deploymentType": "IIS",
+  "applicationName": "MyApp",
+  "environmentName": "MyApp-Env",
+  "iis": {
+    "website": {
+      "name": "MyAppWebsite",
+      "port": 80,
+      "physicalPath": "C:\\inetpub\\wwwroot\\MyApp"
+    },
+    "appPool": {
+      "name": "MyAppAppPool",
+      "runtime": "ASP.NET",
+      "version": "v4.0"
+    }
+  },
+  "dependencies": [
+    {
+      "name": "MyAppDependency",
+      "version": "1.0.0"
+    }
+  ]
 }
