@@ -19,7 +19,7 @@ jobs:
                 dotnet-version: '6.0'
 
             - name: Build project
-              run: dotnet publish -c Release -r linux-x64 -o site
+              run: dotnet publish -c Release -r linux-x64 --self-contained -o site
               
             - name: Create ZIP package
               run: cd site && zip -r ../site.zip .
