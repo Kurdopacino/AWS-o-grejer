@@ -19,10 +19,12 @@ jobs:
                 dotnet-version: '6.0'
 
             - name: Build project
-              run: dotnet publish -c Release -r linux-x64 --self-contained -o site
-              
-            - name: Create ZIP package
-              run: cd site && zip -r ../site.zip .
+              run: dotnet publish -c Release -r win-x64 --self-contained -o site
+
+            - name: Include IIS Manifest in ZIP
+              run: |
+                cp aws-windows-deployment-manifest.json site/
+                cd site && zip -r ../site.zip .
 
             - name: Deploy to AWS Elastic Beanstalk
               uses: einaregilsson/beanstalk-deploy@v22
@@ -34,4 +36,4 @@ jobs:
                  version_label: ${{ github.run_id }}
                  region: us-east-1
                  deployment_package: site.zip
-                 use_existing_version_if_available: true  # Add this line
+                 use_existing_version_if_available: true
