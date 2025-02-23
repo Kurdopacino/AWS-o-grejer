@@ -29,8 +29,8 @@ jobs:
               with:
                  aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
                  aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                 application_name: API
-                 environment_name: API-env
+                 application_name: testapi
+                 environment_name: Testapi-env
                  version_label: ${{ github.run_id }}
                  region: us-east-1
                  deployment_package: site.zip
