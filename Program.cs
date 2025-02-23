@@ -2,53 +2,64 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register EncryptionService
 builder.Services.AddSingleton<EncryptionService>();
 
 var app = builder.Build();
 
+// Root endpoint
 app.MapGet("/", () => "Hello World!");
 
 // GET-endpoints
 app.MapGet("/encrypt/{text}", (string text, EncryptionService service) =>
 {
-    return new { EncryptedText = service.Encrypt(text) };
+    if (string.IsNullOrWhiteSpace(text))
+    {
+        return Results.BadRequest("Text cannot be empty.");
+    }
+    return Results.Ok(new { EncryptedText = service.Encrypt(text) });
 });
 
 app.MapGet("/decrypt/{text}", (string text, EncryptionService service) =>
 {
-    return new { DecryptedText = service.Decrypt(text) };
+    if (string.IsNullOrWhiteSpace(text))
+    {
+        return Results.BadRequest("Text cannot be empty.");
+    }
+    return Results.Ok(new { DecryptedText = service.Decrypt(text) });
 });
 
-// POST-endpoints för JSON-anrop
+// POST-endpoints for JSON
 app.MapPost("/encrypt", ([FromBody] InputModel model, EncryptionService service) =>
 {
+    if (string.IsNullOrWhiteSpace(model.Text))
+    {
+        return Results.BadRequest("Text cannot be empty.");
+    }
     return Results.Ok(new { EncryptedText = service.Encrypt(model.Text) });
 });
 
 app.MapPost("/decrypt", ([FromBody] InputModel model, EncryptionService service) =>
 {
+    if (string.IsNullOrWhiteSpace(model.Text))
+    {
+        return Results.BadRequest("Text cannot be empty.");
+    }
     return Results.Ok(new { DecryptedText = service.Decrypt(model.Text) });
 });
 
-if (app.Environment.IsDevelopment())
-{
-    app.Run(); // Kör applikationen
-}
-else
-{
-    app.Run("http://0.0.0.0:5000");
-}
+app.Run(); // Always run the application
 
-// Modell för indata
+// Input model
 public class InputModel
 {
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
 }
 
-// Krypteringstjänst
+// Encryption service
 public class EncryptionService
 {
-    private const int Shift = 3; // Hur många steg vi flyttar bokstäver
+    private const int Shift = 3; // Shift for Caesar cipher
 
     public string Encrypt(string input)
     {
@@ -59,5 +70,4 @@ public class EncryptionService
     {
         return new string(input.Select(c => (char)(c - Shift)).ToArray());
     }
-
 }
