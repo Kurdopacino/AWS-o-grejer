@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +30,14 @@ app.MapPost("/decrypt", ([FromBody] InputModel model, EncryptionService service)
     return Results.Ok(new { DecryptedText = service.Decrypt(model.Text) });
 });
 
-app.Run(); // Kör applikationen
+if (app.Environment.IsDevelopment())
+{
+    app.Run(); // Kör applikationen
+}
+else
+{
+    app.Run("http://0.0.0.0:5000");
+}
 
 // Modell för indata
 public class InputModel
@@ -54,5 +59,5 @@ public class EncryptionService
     {
         return new string(input.Select(c => (char)(c - Shift)).ToArray());
     }
-    
+
 }
