@@ -1,14 +1,16 @@
 {
-  "manifestVersion": 1,
-  "deployments": [
-    {
-      "version": "13480643812",
-      "description": "Deployment description"
-    }
-  ],
+  "manifestVersion": "1.0",
   "deploymentType": "IIS",
   "applicationName": "MyApp",
   "environmentName": "MyApp-Env",
+  "deployments": [
+    {
+      "deploymentName": "Deploy-1",
+      "deploymentPath": "site",
+      "deploymentType": "IIS",
+      "autoDeploy": true
+    }
+  ],
   "iis": {
     "website": {
       "name": "MyAppWebsite",
