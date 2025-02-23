@@ -23,7 +23,6 @@ jobs:
 
             - name: Include IIS Manifest in ZIP
               run: |
-                cp aws-windows-deployment-manifest.json site/
                 cd site && zip -r ../site.zip .
 
             - name: Deploy to AWS Elastic Beanstalk
