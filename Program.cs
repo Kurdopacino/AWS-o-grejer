@@ -48,7 +48,7 @@ app.MapPost("/decrypt", ([FromBody] InputModel model, EncryptionService service)
     return Results.Ok(new { DecryptedText = service.Decrypt(model.Text) });
 });
 
-app.Run(); // Always run the application
+app.Run("http://0.0.0.0:5000"); // Always run the application
 
 // Input model
 public class InputModel
