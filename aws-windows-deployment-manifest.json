@@ -1,5 +1,11 @@
 {
   "manifestVersion": "1.0",
+  "deployments": [
+    {
+      "version": "13480643812",
+      "description": "Deployment description"
+    }
+  ],
   "deploymentType": "IIS",
   "applicationName": "MyApp",
   "environmentName": "MyApp-Env",
