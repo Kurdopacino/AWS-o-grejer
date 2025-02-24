@@ -72,7 +72,7 @@ app.MapPost("/decrypt", ([FromBody] InputModel model, IEncryptionService service
     }
 });
 
-app.Run("https://0.0.0.0:5000"); // Secure HTTPS
+app.Run("http://0.0.0.0:5000"); // Secure HTTPS
 
 // Input model
 public class InputModel
