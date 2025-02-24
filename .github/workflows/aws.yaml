@@ -1,5 +1,3 @@
-name: Build and push to AWS
-
 on:
     push:
         branches:
@@ -16,15 +14,18 @@ jobs:
             - name: Setup .NET
               uses: actions/setup-dotnet@v3
               with: 
-                dotnet-version: '8.0'
+                dotnet-version: '9.0'  # Change if using a stable .NET version
 
-            - name: Build project
+            - name: Restore dependencies
+              run: dotnet restore
+
+            - name: Build and Publish
               run: dotnet publish -c Release -r linux-x64 --self-contained -o site
 
-            - name: Include IIS Manifest in ZIP
+            - name: Create Deployment ZIP
               run: |
-                cp aws-windows-deployment-manifest.json site/
-                cd site && zip -r ../site.zip .
+                cd site
+                zip -r ../site.zip .
 
             - name: Deploy to AWS Elastic Beanstalk
               uses: einaregilsson/beanstalk-deploy@v22
